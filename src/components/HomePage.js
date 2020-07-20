@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import OrderCard from './OrderCard'
 
 const HomePage = props => {
     return (
@@ -9,6 +10,7 @@ const HomePage = props => {
                 <h1>From the backend of our oven to the frontend of your home.</h1>
             </header>
                 <Link to='/buildapizza'>Build A Pizza</Link>
+                {props.orders.map((order, i) => <OrderCard key={i} order={order} />)}
         </Homecontainer>
     )
 }

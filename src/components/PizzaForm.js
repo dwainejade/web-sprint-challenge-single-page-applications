@@ -20,14 +20,14 @@ const defaultFormState = {
         large: false,
         xlarge: false
     },
-    ss: {
+    toppings: {
         pepperoni: false,
         sausage: false,
         bacon: false,
         mushrooms: false,
-        olives: false,
+        pineapple: false,
     },
-    instruction: ''
+    instructions: ''
 }
 
 const defaultErrorState = {
@@ -47,8 +47,8 @@ const PizzaForm = props => {
     const validate = e => {
         e.persist();
         yup.reach(schema, e.target.name).validate(e.target.value)
-        .then(valid => setErrors({...errors, [e.target.name]: ''}))
-        .catch(err => setErrors({...errors, [e.target.name]: err.errors[0]}));
+            .then(valid => setErrors({ ...errors, [e.target.name]: '' }))
+            .catch(err => setErrors({ ...errors, [e.target.name]: err.errors[0] }));
     }
 
     const handleChange = e => {
@@ -75,8 +75,8 @@ const PizzaForm = props => {
     const handleSubmit = e => {
         e.preventDefault();
         console.log(formState);
-        axios.post("https://reqres.in/api/users", formState)
-            .then(res => console.log(res))
+        axios.post("https://reqres.in/api/pizza", formState)
+            .then(res => props.addOrder(res.data))
             .catch(err => console.log(err));
     }
 
@@ -84,40 +84,42 @@ const PizzaForm = props => {
         <FormContainer>
             <form onSubmit={handleSubmit}>
                 <label>Name
-                <input type='text' name='name' onChange={handleChange}></input>
+                <input type='text' name='name' onChange={handleChange} data-cy='name'></input>
+                    {errors.name.length > 0 && <p style={{ color: 'red' }}>{errors.name}</p>}
                 </label>
                 <label>Phone Number
-                <input type='tel' name='phone' onChange={handleChange}></input>
+                <input type='tel' name='phone' onChange={handleChange} data-cy='phone'></input>
+                    {errors.phone.length > 0 && <p style={{ color: 'red' }}>{errors.phone}</p>}
                 </label>
                 <label> Choose a Size
-                    <select name='size' onChange={handleChange} defaultValue='Large'>
-                        <option>Medium</option>
-                        <option>Large</option>
-                        <option>X-Large</option>
+                    <select name='size' onChange={handleChange} defaultValue='large'>
+                        <option value='medium'>Medium</option>
+                        <option value='large'>Large</option>
+                        <option value='x-large'>X-Large</option>
                     </select>
                 </label>
-                <fieldset> Choose Your ss
+                <fieldset> Choose Your toppings
                     <label>
-                        <input type='checkbox' name='ss' onChange={handleChange} value='toppings' />
+                        <input type='checkbox' name='toppings' onChange={handleChange} value='pepperoni' data-cy='pepperoni' />
                         Pepperoni
                     </label>
                     <label>
-                        <input type='checkbox' name='ss' onChange={handleChange} value='toppings' />
+                        <input type='checkbox' name='toppings' onChange={handleChange} value='sausage' data-cy='sausage' />
                         Sausage
                     </label>
                     <label>
-                        <input type='checkbox' name='ss' onChange={handleChange} value='toppings' />
+                        <input type='checkbox' name='toppings' onChange={handleChange} value='mushrooms' data-cy='mushrooms' />
                         Mushrooms
                     </label>
                     <label>
-                        <input type='checkbox' name='ss' onChange={handleChange} value='toppings' />
+                        <input type='checkbox' name='toppings' onChange={handleChange} value='pineapple' data-cy='pineapple' />
                         Pineapple
                     </label>
                 </fieldset>
                 <label>
-                    <textarea name='instructions' onChange={handleChange} placeholder='Special Instructions' />
+                    <textarea name='instructions' onChange={handleChange} placeholder='Special Instructions' data-cy='instructions' />
                 </label>
-                <button type='submit'>Place Order</button>
+                <button type='submit' disabled={isDisabled} data-cy="submit-button">Place Order</button>
             </form>
         </FormContainer>
     );
