@@ -3,6 +3,7 @@ import * as yup from 'yup';
 import styled from 'styled-components';
 import axios from 'axios';
 
+
 const schema = yup.object().shape({
     name: yup.string()
         .required('Please enter your name')
@@ -15,11 +16,7 @@ const schema = yup.object().shape({
 const defaultFormState = {
     name: '',
     phone: '',
-    size: {
-        medium: false,
-        large: false,
-        xlarge: false
-    },
+    size: 'Medium',
     toppings: {
         pepperoni: false,
         sausage: false,
@@ -74,10 +71,11 @@ const PizzaForm = props => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        console.log(formState);
+        console.log('Order Submitted');
+        console.log('fromstate:', formState);
         axios.post("https://reqres.in/api/pizza", formState)
-            .then(res => props.addOrder(res.data))
-            .catch(err => console.log(err));
+        .then(res => props.addOrder(res.data))
+        .catch(err => console.log(err));
     }
 
     return (
@@ -92,10 +90,10 @@ const PizzaForm = props => {
                     {errors.phone.length > 0 && <p style={{ color: 'red' }}>{errors.phone}</p>}
                 </label>
                 <label> Choose a Size
-                    <select name='size' onChange={handleChange} defaultValue='large'>
-                        <option value='medium'>Medium</option>
-                        <option value='large'>Large</option>
-                        <option value='x-large'>X-Large</option>
+                    <select name='size' onChange={handleChange} defaultValue='Medium'>
+                        <option value='Medium'>Medium</option>
+                        <option value='Large'>Large</option>
+                        <option value='X-Large'>X-Large</option>
                     </select>
                 </label>
                 <fieldset> Choose Your toppings
@@ -119,7 +117,7 @@ const PizzaForm = props => {
                 <label>
                     <textarea name='instructions' onChange={handleChange} placeholder='Special Instructions' data-cy='instructions' />
                 </label>
-                <button type='submit' disabled={isDisabled} data-cy="submit-button">Place Order</button>
+                <button type='submit' disabled={isDisabled} data-cy="submit-button">Add Order</button>
             </form>
         </FormContainer>
     );

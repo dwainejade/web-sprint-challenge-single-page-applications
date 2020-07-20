@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import OrderCard from './OrderCard'
+import OrderCard from './OrderCard';
 
 const HomePage = props => {
     return (
@@ -9,10 +9,12 @@ const HomePage = props => {
             <header>
                 <h1>From the backend of our oven to the frontend of your home.</h1>
             </header>
-                <Link to='/buildapizza'>Build A Pizza</Link>
+            <Link to='/buildapizza'>Build A Pizza</Link>
+            <div className='placed-orders'>
                 {props.orders.map((order, i) => <OrderCard key={i} order={order} />)}
+            </div>
         </Homecontainer>
-    )
+    );
 }
 
 const Homecontainer = styled.div`
@@ -33,16 +35,19 @@ const Homecontainer = styled.div`
             padding: 20px;
         }
     }
-            a {
-                text-decoration: none;
-                font-size: 6rem;
-                padding: 20px;
-                border: 3px solid #aaa;
-                color: #000;
-                margin: 5rem 0 5rem 0;
-                &:hover {
-                    background: rgba(255, 255, 255, 0.05);
-                }
+    a {
+        text-decoration: none;
+        font-size: 3rem;
+        padding: 20px;
+        border: 3px solid #aaa;
+        color: #000;
+        margin: 5rem 0 5rem 0;
+        &:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+    .laced-orders{
+        display: flex;
+    }    
 
 `
 

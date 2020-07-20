@@ -9,17 +9,22 @@ import HomePage from './components/HomePage';
 function App() {
   const [orders, setOrders] = useState([]);
 
-
+  const addOrder = order => {
+    setOrders([...orders, order]);
+  }
 
   return (
     <>
       <NavBar />
       <Switch>
         <Route path='/buildapizza'>
-          <PizzaForm  />
+          <PizzaForm  
+          addOrder={addOrder}
+          
+          />
         </Route>
         <Route exact path='/'>
-          <HomePage />
+          <HomePage orders={orders} />
         </Route>
       </Switch>
     </>
