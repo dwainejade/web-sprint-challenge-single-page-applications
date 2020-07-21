@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import OrderCard from './OrderCard';
 
 const HomePage = props => {
     return (
@@ -10,9 +9,7 @@ const HomePage = props => {
                 <h1>From the backend of our oven to the frontend of your home.</h1>
             </header>
             <Link to='/buildapizza'>Build A Pizza</Link>
-            <div className='placed-orders'>
-                {props.orders.map((order, i) => <OrderCard key={i} order={order} />)}
-            </div>
+            
         </Homecontainer>
     );
 }
@@ -43,12 +40,9 @@ const Homecontainer = styled.div`
         color: #000;
         margin: 5rem 0 5rem 0;
         &:hover {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgb(58, 141, 213);
+            color: white;
         }
-    .laced-orders{
-        display: flex;
-    }    
-
 `
 
 export default HomePage;

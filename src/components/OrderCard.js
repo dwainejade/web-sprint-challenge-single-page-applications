@@ -16,6 +16,8 @@ const OrderCard = ({ order }) => {
         return orderedToppings;
     }
 
+    console.log()
+
     return (
         <Reciepts>
             <h2 style={{ textAlign: 'center' }}>{order.name}</h2>

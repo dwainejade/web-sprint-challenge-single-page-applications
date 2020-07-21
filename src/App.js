@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import styled from 'styled-components';
 import NavBar from './components/Navbar'
 import PizzaForm from './components/PizzaForm.js';
 import HomePage from './components/HomePage';
@@ -20,11 +19,11 @@ function App() {
         <Route path='/buildapizza'>
           <PizzaForm  
           addOrder={addOrder}
-          
+          orders={orders}
           />
         </Route>
         <Route exact path='/'>
-          <HomePage orders={orders} />
+          <HomePage  />
         </Route>
       </Switch>
     </>

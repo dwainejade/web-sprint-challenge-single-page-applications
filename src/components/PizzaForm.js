@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as yup from 'yup';
 import styled from 'styled-components';
 import axios from 'axios';
-
+import OrderCard from './OrderCard';
 
 const schema = yup.object().shape({
     name: yup.string()
@@ -68,25 +68,31 @@ const PizzaForm = props => {
         }
     }
 
+console.log(formState);
 
     const handleSubmit = e => {
         e.preventDefault();
         console.log('Order Submitted');
         console.log('fromstate:', formState);
         axios.post("https://reqres.in/api/pizza", formState)
-        .then(res => props.addOrder(res.data))
+        .then(res => {
+            props.addOrder(res.data)
+            setFormState(defaultFormState);
+        }) 
         .catch(err => console.log(err));
     }
+
+
 
     return (
         <FormContainer>
             <form onSubmit={handleSubmit}>
                 <label>Name
-                <input type='text' name='name' onChange={handleChange} data-cy='name'></input>
+                <input type='text' name='name' value={formState.name} onChange={handleChange} data-cy='name'></input>
                     {errors.name.length > 0 && <p style={{ color: 'red' }}>{errors.name}</p>}
                 </label>
                 <label>Phone Number
-                <input type='tel' name='phone' onChange={handleChange} data-cy='phone'></input>
+                <input type='tel' name='phone' value={formState.phone}  onChange={handleChange} data-cy='phone'></input>
                     {errors.phone.length > 0 && <p style={{ color: 'red' }}>{errors.phone}</p>}
                 </label>
                 <label> Choose a Size
@@ -98,27 +104,30 @@ const PizzaForm = props => {
                 </label>
                 <fieldset> Choose Your toppings
                     <label>
-                        <input type='checkbox' name='toppings' onChange={handleChange} value='pepperoni' data-cy='pepperoni' />
+                        <input type='checkbox' name='toppings' onChange={handleChange} checked={formState.toppings.pepperoni} value='pepperoni' data-cy='pepperoni' />
                         Pepperoni
                     </label>
                     <label>
-                        <input type='checkbox' name='toppings' onChange={handleChange} value='sausage' data-cy='sausage' />
+                        <input type='checkbox' name='toppings' onChange={handleChange}  checked={formState.toppings.sausage} value='sausage' data-cy='sausage' />
                         Sausage
                     </label>
                     <label>
-                        <input type='checkbox' name='toppings' onChange={handleChange} value='mushrooms' data-cy='mushrooms' />
+                        <input type='checkbox' name='toppings' onChange={handleChange}  checked={formState.toppings.mushrooms} value='mushrooms' data-cy='mushrooms' />
                         Mushrooms
                     </label>
                     <label>
-                        <input type='checkbox' name='toppings' onChange={handleChange} value='pineapple' data-cy='pineapple' />
+                        <input type='checkbox' name='toppings' onChange={handleChange}  checked={formState.toppings.pineapple} value='pineapple' data-cy='pineapple' />
                         Pineapple
                     </label>
                 </fieldset>
                 <label>
-                    <textarea name='instructions' onChange={handleChange} placeholder='Special Instructions' data-cy='instructions' />
+                    <textarea name='instructions' onChange={handleChange} value={defaultFormState.instructions} placeholder='Special Instructions' data-cy='instructions' />
                 </label>
                 <button type='submit' disabled={isDisabled} data-cy="submit-button">Add Order</button>
             </form>
+            <div className='placed'>
+                {props.orders.map((order, i) => <OrderCard key={i} order={order} />)}
+            </div>
         </FormContainer>
     );
 }
@@ -134,6 +143,10 @@ const FormContainer = styled.div`
     label{
         display: flex;
         justify-content: space-between;
+    }
+    .placed{
+        padding: 1rem;
+        margin: 5rem ;
     }
 `
 
