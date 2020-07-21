@@ -1,10 +1,31 @@
-import React from "react";
+import React, { useState } from 'react';
+import { Route, Switch } from 'react-router-dom';
+import NavBar from './components/Navbar'
+import PizzaForm from './components/PizzaForm.js';
+import HomePage from './components/HomePage';
 
-const App = () => {
+
+function App() {
+  const [orders, setOrders] = useState([]);
+
+  const addOrder = order => {
+    setOrders([...orders, order]);
+  }
+
   return (
     <>
-      <h1>Lambda Eats</h1>
-      <p>You can remove this code and create your own header</p>
+      <NavBar />
+      <Switch>
+        <Route path='/buildapizza'>
+          <PizzaForm  
+          addOrder={addOrder}
+          orders={orders}
+          />
+        </Route>
+        <Route exact path='/'>
+          <HomePage  />
+        </Route>
+      </Switch>
     </>
   );
 };
